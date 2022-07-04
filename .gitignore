@@ -1,0 +1,17 @@
+venv
+.eggs
+.idea
+dist
+.vscode
+*.tmp
+*.old
+
+# Package build files
+build/*
+
+# VIM swap files
+*.sw*
+\~*
+
+# Python cache files
+__pycache__
