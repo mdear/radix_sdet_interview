@@ -158,7 +158,7 @@ Category 3 : Scale/Stress Validation
         check returned headers to identify the server
         technology being used, check the CVE security vulnerability database
         and try to hack the server by doing bad things such as code injection
-        attacks.  Use well known tools such as Codenomicon.
+        attacks.  Use well known tools such as Codenomicon and Postman.
         Try to crash the server.
 
 
