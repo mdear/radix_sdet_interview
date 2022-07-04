@@ -56,7 +56,8 @@ Type:
 
 Category 1 : Sunny Day
 
-    Test 1.1 Get entire test file icons_rgb_circle.png.  Validate contents against original.
+    Test 1.1 Get entire test file icons_rgb_circle.png.
+    Validate contents against original.
 
     Test 1.2 Repeat test 1.1 but with a series of artifically 
     created test files of size 1K-1, 1K, 1K+1 and pseudorandom
@@ -67,71 +68,104 @@ Category 1 : Sunny Day
 
 Category 2 : Rainy Day
 
-    Test 2.1 Try corrupting a returned root hash, proof and piece contents and ensure validation
-    fails as expectetd.
+    Test 2.1 Try corrupting a returned root hash, proof and piece contents and
+    ensure validation fails as expected.
 
 
 Category 3 : Scale/Stress Validation
 
     Test 3.1 : Large files
-        Repeat test 1.1 but on artifically large test files 1K, 10K, 100K, 1MB, 10MB, 100MB, 1GB.
+        Repeat test 1.1 but on artifically large test files 
+        1K, 10K, 100K, 1MB, 10MB, 100MB, 1GB.
         Fill with pseudorandom patterns.
-        Validate original file with reconstructed file and ensure binary equality.
-        Note execution time and load factor during each test.  Determine if execution scales linearly or not based on file size.
+        Validate original file with reconstructed file and ensure binary 
+        equality.  Note execution time and load factor during each test.
+        Determine if execution scales linearly or not based on file size.
+
 
     Test 3.2 : Multiple files
-        Similar to 2.1 create a set of test files of multiple sizes.  Launch server specifying all these multiple files and test download of each file sequentially.
-        Validate original file with reconstructed file and ensure binary equality.
+        Similar to 2.1 create a set of test files of multiple sizes.
+        Launch server specifying all these multiple files and test download of
+        each file sequentially.
+        Validate original file with reconstructed file and ensure
+        binary equality.
         Characterize loading behavior as in test 2.1.
 
     Test 3.3: Multiple files
-        Similar to 2.2 but retrieve each file in parallel, to the maximum number of connections supported by the server.  Find system limits/breaking points.  Characterize throughput, memory usage, storage
-        usage.
+        Similar to 2.2 but retrieve each file in parallel, to the maximum
+        number of connections supported by the server.
+        Find system limits/breaking points.
+        Characterize throughput, memory usage, storage usage.
 
-    Test 3.4: DDOS attach
-        Try to DDOS the server by sending rapid requests.
+    Test 3.4: DDOS attack
+        Try to DDOS the server by sending rapid requests or rapid
+        random URLs, typically parallelized attacks from multiple sources.
+        Identify system limits.
 
     Test 3.5: Soak test
-        Set an automated test to continually run a file reconstruction / validation loop, checking for potential memory leaks.
-        Monitor the resource consumption of the process during this long-term (ie. overnight) test.
+        Set an automated test to continually run a file reconstruction /
+        validation loop, checking for potential memory leaks.
+        Monitor the resource consumption of the process during this long-term
+        (ie. overnight) test.
 
 
     Category 4 : Fault Tolerance Validation
+
         Test 4.1 : Planned server restart/recovery 
-            During the middle of a transfer, kill the server and restart it.  Wait for it to come up again.
+            During the middle of a transfer, kill the server and restart it.
+            Wait for it to come up again.
             Resume the transfer and validate the resulting file.
 
         Test 4.2 : Unplanned server restart/recovery 
-            Kill the server at a random/unexpected time during the recovery of file pieces and ensure the
-            client fails gracefully and then re-requests the failing operation and ultimately validates the
-            entire file.
+            Gracefully terminate the server at a random/unexpected time during
+            the recovery of file pieces and ensure the
+            client fails gracefully and then re-requests the failing operation
+            and ultimately validates the entire file.
+            Do this repeatively to ensure all tricky time-based corner cases
+            are properly covered.
+            Also, try this with hard server kill and determine if the server
+            comes back properly.
 
 
     Category 5 : API testing
 
         Test 5.1 : Bad verbs
-            Test the given hashes/piece APIs but use PUT, POST, PATCH and DELETE verbs, ensure these fail appropriately.
+            Test the given hashes/piece APIs but use PUT, POST, PATCH and
+            DELETE verbs, ensure these fail appropriately.
 
         Test 5.2 : pieces API : Bad hashid
             Provide unknown and badly formatted hashid, ensure graceful failure.
 
         Test 5.3 : pieces API : Bad index
-            Provide out-of-bounds or non-numerical pieceIndex values, ensure these fail gracefully
+            Provide out-of-bounds or non-numerical pieceIndex values, ensure
+            these fail gracefully
             Reverse the hashId and pieceIndex in the URL and ensure
             failure.
 
         Test 5.4 : pieces API bad path
-            Provide incomplete / unsupported path values on the GET URL, ensure graceful fail.
-            For example, piece API without pieceIndex, or unsupport API such as "pieceZ".
+            Provide incomplete / unsupported path values on the GET URL,
+            ensure graceful fail.
+            For example, piece API without pieceIndex, or
+            unsupported API such as "pieceZ".
 
         Test 5.5 : pieces API : missing required API elements
             Try getting a piece with a misformatted URL missing the
             hashId and/or the pieceIndex.
 
+    Category 6 : Security validation
+
+        Test 6.1 : Try to use well-known security attacks,
+        check returned headers to identify the server
+        technology being used, check the CVE security vulnerability database
+        and try to hack the server by doing bad things such as code injection
+        attacks.  Use well known tools such as Codenomicon.
+        Try to crash the server.
+
+
 ## Bug reports
 
 ## Suggestions to improve the exercise
-1. The following link documents Merkle validations a little differently than the one used in 
-your example, and may be good to integrate.
+1. The following link documents Merkle validations a little differently than
+the one used in your example, and may be good to integrate.
 https://medium.com/crypto-0-nite/merkle-proofs-explained-6dd429623dc5
 
