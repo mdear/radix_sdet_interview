@@ -18,6 +18,8 @@ Substitute `/path/to/venv/parent/dir` with the appropriate local directory path.
 
 Install requirements (located in my git repository)
 
+`pip install --upgrade pip setuptools`
+
 `pip install -r requirements.txt`
 
 Examples given in bash.  Add the following commands to `~/.bashrc`:
@@ -50,7 +52,9 @@ Clone this repo into a directory outside the venv directory.
 cd into this repo's top level directory.
 Type:
 
-`python -m unittest .`
+`python test_server.py`
+
+`python -m unittest *.py`
 
 ## Test plan
 
