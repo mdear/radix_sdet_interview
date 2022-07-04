@@ -58,6 +58,12 @@ Category 1 : Sunny Day
 
     Test 1.1 Get entire test file icons_rgb_circle.png.  Validate contents against original.
 
+    Test 1.2 Repeat test 1.1 but with a series of artifically 
+    created test files of size 1K-1, 1K, 1K+1 and pseudorandom
+    contents (to check for off
+    by one errors).  Then move up to file sizes of 2K-1, 2K, 2K+1, and 
+    cycle up from there in 1K increments all the way up to 100KB.
+
 
 Category 2 : Rainy Day
 
@@ -65,7 +71,7 @@ Category 2 : Rainy Day
     fails as expectetd.
 
 
-Category 3 : Scale Validation
+Category 3 : Scale/Stress Validation
 
     Test 3.1 : Large files
         Repeat test 1.1 but on artifically large test files 1K, 10K, 100K, 1MB, 10MB, 100MB, 1GB.
@@ -81,6 +87,13 @@ Category 3 : Scale Validation
     Test 3.3: Multiple files
         Similar to 2.2 but retrieve each file in parallel, to the maximum number of connections supported by the server.  Find system limits/breaking points.  Characterize throughput, memory usage, storage
         usage.
+
+    Test 3.4: DDOS attach
+        Try to DDOS the server by sending rapid requests.
+
+    Test 3.5: Soak test
+        Set an automated test to continually run a file reconstruction / validation loop, checking for potential memory leaks.
+        Monitor the resource consumption of the process during this long-term (ie. overnight) test.
 
 
     Category 4 : Fault Tolerance Validation
@@ -104,11 +117,16 @@ Category 3 : Scale Validation
 
         Test 5.3 : pieces API : Bad index
             Provide out-of-bounds or non-numerical pieceIndex values, ensure these fail gracefully
+            Reverse the hashId and pieceIndex in the URL and ensure
+            failure.
 
         Test 5.4 : pieces API bad path
             Provide incomplete / unsupported path values on the GET URL, ensure graceful fail.
             For example, piece API without pieceIndex, or unsupport API such as "pieceZ".
 
+        Test 5.5 : pieces API : missing required API elements
+            Try getting a piece with a misformatted URL missing the
+            hashId and/or the pieceIndex.
 
 ## Bug reports
 
